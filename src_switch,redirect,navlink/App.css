@@ -1,0 +1,12 @@
+.active {
+  /* color: deeppink;
+  font-size: 40px; */
+
+  width: 100px;
+  height: 100px;
+}
+
+.selected {
+  color: deeppink;
+  font-size: 40px;
+}
