@@ -25,8 +25,7 @@ module.exports = {
   },
   // 加载器
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.jsx?$/, // 规则对哪些文件生效
         // exclude: /node_modules/, // 排除node_modules文件，其他文件都检查
         include: [resolve("src")], // 包含src下面的文件，只检查包含的文件，而其他文件不检查
@@ -40,9 +39,14 @@ module.exports = {
               "@babel/preset-react", // 编译jsx语法
             ],
             plugins: [ // 插件
-              ["@babel/plugin-proposal-decorators", { legacy: true }], // 解决装饰器语法
-              ["@babel/plugin-proposal-class-properties", { loose: true }], // 解决state={xxx}
-            ], 
+              ["@babel/plugin-transform-runtime"],
+              ["@babel/plugin-proposal-decorators", {
+                legacy: true
+              }], // 解决装饰器语法
+              ["@babel/plugin-proposal-class-properties", {
+                loose: true
+              }], // 解决state={xxx}
+            ],
           },
         },
       },
@@ -89,13 +93,11 @@ module.exports = {
       template: resolve("public/index.html"),
     }),
     // 复制文件
-    new CopyPlugin([
-      {
-        from: resolve("public"), // 将public下面的所有文件复制
-        to: resolve("dist"), // 复制到dist目录下去
-        ignore: ["index.html"], // 复制时忽略index.html文件（这个文件已经被HtmlWebpackPlugin处理了）
-      },
-    ]),
+    new CopyPlugin([{
+      from: resolve("public"), // 将public下面的所有文件复制
+      to: resolve("dist"), // 复制到dist目录下去
+      ignore: ["index.html"], // 复制时忽略index.html文件（这个文件已经被HtmlWebpackPlugin处理了）
+    }, ]),
   ],
   // 模式
   mode: "development",
@@ -113,11 +115,13 @@ module.exports = {
       // 配置代理服务器
       "/api": {
         target: "http://localhost:3000",
-        pathRewrite: { "^/api": "" },
+        pathRewrite: {
+          "^/api": ""
+        },
         changeOrigin: true,
       },
     },
-    historyApiFallback: true   //解决BrowserRouter 404问题
+    historyApiFallback: true //解决BrowserRouter 404问题
   },
   devtool: "cheap-module-source-map", // 开发环境
   resolve: {
